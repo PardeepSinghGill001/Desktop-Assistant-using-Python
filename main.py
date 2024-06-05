@@ -24,7 +24,7 @@ def speak(text):
     engine.say(text)
     engine.runAndWait()
 
-
+ 
 # Speech recognition function
     
 def takeCommand():
@@ -34,7 +34,6 @@ def takeCommand():
     with sr.Microphone() as source:
         print('listening....')
         r.pause_threshold = 1
-        r.listen(source)
         audio = r.listen(source)
 
         try:
@@ -44,14 +43,40 @@ def takeCommand():
 
         except Exception as e:
             print("Say that again please....")
-            return "none"
+            return "None"
         return query
-text = takeCommand()
-speak(text)
-         
+
+def wish_me():
+    current_hour=datetime.datetime.now().hour
+    if(current_hour>=0 and current_hour<12):
+        speak("good morning waheguru ji")
+    elif(current_hour>=12 and current_hour<18):
+        speak("good afternoon waheguru ji")
+    else:
+        speak("good evening waheguru ji")
+    speak("how may i help you")
+
+if __name__ == "__main__":
+     wish_me()
+     while True:
+        query = input("enter your query: \n")
+
+        if "wikipedia" in query:
+            speak("searching wikipedia")
+            query= query.replace("wikipedia","")
+            result = wikipedia.summary(query,sentences = 2)
+            speak("according to wikipedia")
+            print(result)
+            speak(result)
+        elif "youtube" in query:
+            speak("opening youtube")
+            webbrowser.open("youtube.com")
+        elif "github" in query:
+            speak("opening github")
+            webbrowser.open("github.com")
+        elif "good bye" in query:
+            speak("Sat Sri Akal ji")
+            exit()
 
 
-    
-
-
-
+        
